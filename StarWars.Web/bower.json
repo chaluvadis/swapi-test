@@ -1,0 +1,14 @@
+{
+  "name": "StarWars.Web",
+  "homepage": "https://github.com/chaluvadis/swapi-test",
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
