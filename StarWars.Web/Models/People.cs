@@ -1,8 +1,8 @@
+using System;
 using System.Collections.Generic;
 
 namespace StarWars.Web.Models
 {
-    // Models mentioned in small case to maintain the api response
     public class People
     {
         public string name { get; set; }
@@ -16,10 +16,19 @@ namespace StarWars.Web.Models
         public string homeworld { get; set; }
         public List<string> films { get; set; }
         public List<string> species { get; set; }
-        public List<string> vehicles { get; set; }
-        public List<string> starships { get; set; }
-        public string created { get; set; }
-        public string edited { get; set; }
-        public string url { get; set; } // Uri with People Id
+        public List<object> vehicles { get; set; }
+        public List<object> starships { get; set; }
+        public DateTime created { get; set; }
+        public DateTime edited { get; set; }
+        public string url { get; set; }
     }
+
+    public class PeopleRootObject
+    {
+        public int count { get; set; }
+        public string next { get; set; }
+        public object previous { get; set; }
+        public List<People> results { get; set; }
+    }
+    // Models mentioned in small case to maintain the api response
 }

@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using StarWars.Web.Brokers;
 using StarWars.Web.Services;
+using System.Net.Http.Headers;
 
 namespace StarWars.Web
 {
@@ -32,6 +33,7 @@ namespace StarWars.Web
             services.AddHttpClient("swapiClient", client =>
             {
                 client.BaseAddress = new Uri("https://swapi.co/api/");
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             });
 
             services.AddTransient<IStarWarsApiClient, StarWarsApiClient>();

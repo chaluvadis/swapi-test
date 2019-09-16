@@ -18,7 +18,8 @@ namespace StarWars.Web.Controllers
         public DataController(IStarWarsApiClient starWarsApiClient) => this.starWarsApiClient = starWarsApiClient;
         // GET: api/data/peoples
         [HttpGet]
-        public async Task<IEnumerable<People>> GetPeoplesAsync()
+        [Route("people")]
+        public async Task<PeopleRootObject> GetPeopleAsync()
         {
             try
             {

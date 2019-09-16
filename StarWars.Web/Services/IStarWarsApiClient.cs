@@ -6,7 +6,7 @@ namespace StarWars.Web.Services
 {
     public interface IStarWarsApiClient
     {
-        Task<IEnumerable<People>> GetPeopleAsync();
+        Task<PeopleRootObject> GetPeopleAsync();
 
         // Add extra methods for neew entities
     }
