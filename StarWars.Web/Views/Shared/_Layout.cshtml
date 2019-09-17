@@ -41,7 +41,7 @@
     </header>
     <div class="container">
         <partial name="_CookieConsentPartial" />
-        <main role="main" class="pb-3">
+        <main role="main" class="pb-3" data-ng-app="starwars">
             @RenderBody()
         </main>
     </div>
@@ -76,6 +76,7 @@
 
     </environment>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/modules/app.js" asp-append-version="true"></script>
 
     @RenderSection("Scripts", required: false)
 </body>

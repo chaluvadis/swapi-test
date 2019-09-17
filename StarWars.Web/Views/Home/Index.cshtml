@@ -1,3 +1,9 @@
-﻿<div class="container">
+﻿<div class="container" data-ng-controller="StartWarsController as ctrl">
     <h3>Starwars World</h3>
+    <div class="content">
+        <input type="text" data-ng-model="ctrl.message" class="text">
+        <label for="">
+            {{ctrl.message}}
+        </label>
+    </div>
 </div>
