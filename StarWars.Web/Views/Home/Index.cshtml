@@ -1,9 +1,33 @@
-﻿<div class="container" data-ng-controller="StartWarsController as ctrl">
+﻿<div class="container" data-ng-controller="startWarsController as ctrl">
     <h3>Starwars World</h3>
     <div class="content">
-        <input type="text" data-ng-model="ctrl.message" class="text">
-        <label for="">
-            {{ctrl.message}}
-        </label>
+        <div class="table-responsive">
+            <table class="table">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Gender</th>
+                        <th scope="col">Eye Color</th>
+                        <th scope="col">Height</th>
+                        <th scope="col">Mass</th>
+                        <th scope="col">View Profile</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-ng-repeat="p in ctrl.peoples">
+                        <th scope="row">{{ctrl.getPeopleId(p.url)}}</th>
+                        <td>{{p.name}}</td>
+                        <td>{{p.gender}}</td>
+                        <td>{{p.eye_color}}</td>
+                        <td>{{p.height}}</td>
+                        <td>{{p.mass}}</td>
+                        <td>
+                            <a href="#" data-ng-click="ctrl.viewPeopleProfile(p)">View</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
