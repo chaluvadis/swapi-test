@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Net.Http;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -18,12 +16,11 @@ namespace StarWars.Web.Controllers
         public DataController(IStarWarsApiClient starWarsApiClient) => this.starWarsApiClient = starWarsApiClient;
         // GET: api/data/peoples
         [HttpGet]
-        [Route("people")]
-        public async Task<PeopleRootObject> GetPeopleAsync()
+        public async Task<PeopleRootObject> GetPeopleAsync(string queryString)
         {
             try
             {
-                return await this.starWarsApiClient.GetPeopleAsync();
+                return await this.starWarsApiClient.GetAsync(queryString);
             }
             catch (System.Exception)
             {

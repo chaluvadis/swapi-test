@@ -1,0 +1,41 @@
+<div class="container" data-ng-controller="startWarsController as ctrl">
+    <h3>Starwars World</h3>
+    <div class="content">
+        <div class="table-responsive">
+            <div class="row" style="margin: 0;">
+                <div class="col-md-6" style="padding-left: 0;">
+                    <a data-ng-if="ctrl.previous" href="#" data-ng-click="ctrl.handlePageChange(ctrl.getQueryString(ctrl.previous))">Previous</a>
+                </div>
+                <div class="col-md-6" style="padding-right: 0;">
+                    <a class="float-right" href="#"data-ng-click="ctrl.handlePageChange(ctrl.getQueryString(ctrl.next))">Next</a>
+                </div>
+            </div>
+            <table class="table">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Gender</th>
+                        <th scope="col">Eye Color</th>
+                        <th scope="col">Height</th>
+                        <th scope="col">Mass</th>
+                        <th scope="col">View Profile</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-ng-repeat="p in ctrl.peoples">
+                        <th scope="row">{{ctrl.getPeopleId(p.url)}}</th>
+                        <td>{{p.name}}</td>
+                        <td>{{p.gender}}</td>
+                        <td>{{p.eye_color}}</td>
+                        <td>{{p.height}}</td>
+                        <td>{{p.mass}}</td>
+                        <td>
+                            <a href="#" data-ng-click="ctrl.viewPeopleProfile(p)">View</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
