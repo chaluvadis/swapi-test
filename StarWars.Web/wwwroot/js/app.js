@@ -2,23 +2,23 @@
     'use strict';
     angular.module('starwars', ['ngRoute'])
         .config(configProvider)
-        .controller('startWarsController', startWarsController)
+        .controller('peopleListController', peopleListController)
+        .controller('detailsController', detailsController)
         .factory('serviceFactory', serviceFactory)
 
     configProvider.$inject = ['$routeProvider', '$locationProvider']
-    function configProvider($routeProvider,$locationProvider) {
+    peopleListController.$inject = ['$scope', '$rootScope', 'serviceFactory', '$location']
+    serviceFactory.$inject = ['$http']
+    detailsController.$inject = ['$scope', '$rootScope']
+    function configProvider($routeProvider, $locationProvider) {
         $routeProvider.when('/', {
-            templateUrl:'views/index.html'
-        }).
-        when('/people/:id', {
-
-        }).
-        otherwise('/');
+            templateUrl: 'views/index.html'
+        }).when('/people/:id', {
+            templateUrl: 'views/details.html'
+        }).otherwise('/');
         $locationProvider.html5Mode(true);
     }
-
-    startWarsController.$inject = ['$scope', 'serviceFactory']
-    function startWarsController($scope, serviceFactory) {
+    function peopleListController($scope, $rootScope, serviceFactory, $location) {
         var vm = this;
         vm.peopleObject = {};
         vm.peoples = [];
@@ -29,7 +29,6 @@
         vm.viewPeopleProfile = viewPeopleProfile;
         vm.handlePageChange = handlePageChange;
         const entity = 'people';
-
         function handlePageChange(page) {
             console.log(page)
             serviceFactory.getPeople(entity, page)
@@ -38,17 +37,16 @@
         function getPeopleId(url) {
             return url.split('/').reverse()[1];
         }
-
         function viewPeopleProfile(people) {
-            console.log(people);
+            var id = getPeopleId(people.url);
+            $rootScope.selectedPeople = people;
+            $rootScope.selectedPeople.id = id;
+            $location.path(`/people/${id}`);
         }
-
         function getQueryString(url) {
             return url ? url.substring(url.indexOf('?')) : ''
         }
-
         function feedData(data) {
-            console.log(data);
             vm.peopleObject = data;
             vm.peoples = data.results;
             vm.previous = vm.peopleObject.previous;
@@ -58,24 +56,17 @@
             serviceFactory.getPeople(entity, page)
                 .then(feedData);
         }
-        getPeople('people','?page=1');
+        getPeople(entity, '?page=1');
     }
-
-    serviceFactory.$inject = ['$http']
     function serviceFactory($http) {
         return {
             getPeople: getPeople
         };
         function getPeople(entity, pageUrl) {
             // initial payload request, https://swapi.c
-            var queryString = `/entity=${entity}/?=page=${pageUrl}`;
-            console.log(queryString);
-            var url = `/api/data/?=queryString=${queryString}`;
-            console.log(url);
-            return $http.get('/api/data/?='+ entity +'/' + pageUrl)
+            return $http.get('/api/data/?=' + entity + '/' + pageUrl)
                 .then(getPeopleComplete)
                 .catch(getPeopleFailed);
-
             function getPeopleComplete(response) {
                 return response.data;
             }
@@ -83,5 +74,20 @@
                 console.error('XHR Failed for People request' + err)
             }
         }
+    }
+
+    function detailsController($scope, $rootScope) {
+        var vm = this;
+        vm.selectedPeople = {};
+        vm.getPeopleDetails = getPeopleDetails;
+        vm.submitForm = submitForm;
+        function submitForm(person) {
+            console.log(person);
+        }
+        function getPeopleDetails() {
+            vm.selectedPeople = $rootScope.selectedPeople;
+            console.log(vm.selectedPeople)
+        }
+        getPeopleDetails();
     }
 })();
