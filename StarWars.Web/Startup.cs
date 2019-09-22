@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using StarWars.Web.Brokers;
 using StarWars.Web.Services;
 using System.Net.Http.Headers;
+using StarWars.Web.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace StarWars.Web
 {
@@ -41,6 +43,12 @@ namespace StarWars.Web
             services.AddSingleton<ILoggingBroker, LoggingBroker>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            var connection = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<StorageContext>(options =>
+            {
+                options.UseSqlServer(connection);
+                options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

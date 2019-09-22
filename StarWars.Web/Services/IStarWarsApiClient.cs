@@ -9,5 +9,6 @@ namespace StarWars.Web.Services
         Task<PeopleRootObject> GetAsync(string queryString);
 
         // Add extra methods for neew entities
+        Task AddPeopleAsnyc(People people);
     }
 }

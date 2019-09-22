@@ -1,5 +1,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using StarWars.Web.Brokers;
 using StarWars.Web.Models;
 
 namespace StarWars.Web.Services
@@ -7,9 +9,13 @@ namespace StarWars.Web.Services
     public class StarWarsApiClient : IStarWarsApiClient
     {
         private readonly IHttpClientFactory httpClientFactory;
-        private const string PeopleHostPath = "people";
+        private readonly IStorageBroker<People> storageBroker;
         // private readonly ILoggingBroker loggingBroker;
-        public StarWarsApiClient(IHttpClientFactory httpClientFactory) => this.httpClientFactory = httpClientFactory;
+        public StarWarsApiClient(IHttpClientFactory httpClientFactory, IStorageBroker<People> storageBroker)
+        {
+            this.httpClientFactory = httpClientFactory;
+            this.storageBroker = storageBroker;
+        }
         public async Task<PeopleRootObject> GetAsync(string queryString)
         {
             try
@@ -27,6 +33,18 @@ namespace StarWars.Web.Services
             catch (System.Exception)
             {
                 throw;
+            }
+        }
+
+        public async Task AddPeopleAsnyc(People people)
+        {
+            try
+            {
+                await this.storageBroker.AddEntity(people);
+            }
+            catch (DbUpdateException dbUpdateException)
+            {
+                throw dbUpdateException;
             }
         }
         // Add extra methods for neew entities
