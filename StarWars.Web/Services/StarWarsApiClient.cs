@@ -9,19 +9,15 @@ namespace StarWars.Web.Services
     public class StarWarsApiClient : IStarWarsApiClient
     {
         private readonly IHttpClientFactory httpClientFactory;
-        private readonly IStorageBroker<People> storageBroker;
         // private readonly ILoggingBroker loggingBroker;
-        public StarWarsApiClient(IHttpClientFactory httpClientFactory, IStorageBroker<People> storageBroker)
-        {
-            this.httpClientFactory = httpClientFactory;
-            this.storageBroker = storageBroker;
-        }
-        public async Task<PeopleRootObject> GetAsync(string queryString)
+        public StarWarsApiClient(IHttpClientFactory httpClientFactory) => this.httpClientFactory = httpClientFactory;
+        public async Task<PeopleRootObject> GetAsync(string entity, string pageUrl)
         {
             try
             {
                 var client = httpClientFactory.CreateClient("swapiClient");
-                var finalUrl = client.BaseAddress.AbsoluteUri + queryString;
+                // "https://swapi.co/api/people/?page=2"
+                var finalUrl = $"{client.BaseAddress.AbsoluteUri}{entity}/{pageUrl}";
                 var request = new HttpRequestMessage(HttpMethod.Get, finalUrl);
                 var response = await client.SendAsync(request);
                 if (response.IsSuccessStatusCode)
@@ -35,18 +31,5 @@ namespace StarWars.Web.Services
                 throw;
             }
         }
-
-        public async Task AddPeopleAsnyc(People people)
-        {
-            try
-            {
-                await this.storageBroker.AddEntity(people);
-            }
-            catch (DbUpdateException dbUpdateException)
-            {
-                throw dbUpdateException;
-            }
-        }
-        // Add extra methods for neew entities
     }
 }

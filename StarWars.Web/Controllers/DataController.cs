@@ -8,7 +8,6 @@ namespace StarWars.Web.Controllers
 {
     [Produces(MediaTypeNames.Application.Json)]
     [Route("api/[controller]")]
-    [ResponseCache(CacheProfileName = "Default30")]
     [ApiController]
     public class DataController : ControllerBase
     {
@@ -17,24 +16,11 @@ namespace StarWars.Web.Controllers
         public DataController(IStarWarsApiClient starWarsApiClient) => this.starWarsApiClient = starWarsApiClient;
         // GET: api/data/peoples
         [HttpGet]
-        public async Task<PeopleRootObject> GetPeopleAsync(string queryString)
+        public async Task<PeopleRootObject> GetPeopleAsync(string entity, string pageUrl)
         {
             try
             {
-                return await this.starWarsApiClient.GetAsync(queryString);
-            }
-            catch (System.Exception)
-            {
-                throw;
-            }
-        }
-
-        [HttpPost]
-        public async Task PostPeopleAsync(People people)
-        {
-            try
-            {
-                await this.starWarsApiClient.AddPeopleAsnyc(people);
+                return await this.starWarsApiClient.GetAsync(entity, pageUrl);
             }
             catch (System.Exception)
             {

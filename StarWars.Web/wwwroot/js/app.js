@@ -64,8 +64,12 @@
         };
         function getPeople(entity, pageUrl) {
             // initial payload request, https://swapi.c
-            return $http.get('/api/data/?=' + entity + '/' + pageUrl)
-                .then(getPeopleComplete)
+            return $http.get('/api/data/', {
+                params: {
+                    entity: entity,
+                    pageUrl: pageUrl
+                }
+            }).then(getPeopleComplete)
                 .catch(getPeopleFailed);
             function getPeopleComplete(response) {
                 return response.data;
