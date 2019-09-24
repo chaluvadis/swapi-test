@@ -1,18 +1,18 @@
 ﻿using System;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using StarWars.Web.Brokers;
-using StarWars.Web.Services;
-using StarWars.Web.Models;
-using System.Net.Http.Headers;
-using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Hosting;
+using StarWars.Web.Brokers;
+using StarWars.Web.Models;
+using StarWars.Web.Services;
 
 namespace StarWars.Web
 {
@@ -33,10 +33,13 @@ namespace StarWars.Web
                 client.BaseAddress = new Uri("https://swapi.co/api/");
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             });
-
             services.AddTransient<IStarWarsApiClient, StarWarsApiClient>();
-
+            services.AddTransient<IPeopleService, PeopleService>();
             services.AddMvc();
+            services.AddDbContext<StorageBroker>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

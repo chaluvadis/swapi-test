@@ -8,6 +8,9 @@ namespace StarWars.Web.Services
     {
         private readonly IStorageBroker<People> storageBroker;
         public PeopleService(IStorageBroker<People> storageBroker) => this.storageBroker = storageBroker;
-        Task IPeopleService.AddPeopleToStarWarsWorld(People people) => throw new System.NotImplementedException();
+        public async Task AddPeopleToStarWarsWorld(People people)
+        {
+            await this.storageBroker.AddEntity(people);
+        }
     }
 }
