@@ -1,6 +1,6 @@
 ### Please follow the steps to run the application
 
-Please make sure dotnet core 2.2 is installed your machine.
+Please make sure dotnet core 3.0 is installed your machine.
 
 1. Clone the code
 
@@ -9,7 +9,7 @@ Please make sure dotnet core 2.2 is installed your machine.
 3. Run the following commands to restore the packages.
 
     a) ```dotnet restore```
-    
+
     b) ```bower install``` to install client side dependencies
 
 4. run ```dotnet build``` to build the solution.
