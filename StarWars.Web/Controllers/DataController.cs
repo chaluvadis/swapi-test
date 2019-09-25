@@ -12,13 +12,7 @@ namespace StarWars.Web.Controllers
     public class DataController : ControllerBase
     {
         private readonly IStarWarsApiClient starWarsApiClient;
-        private readonly IPeopleService peopleService;
-
-        public DataController(IStarWarsApiClient starWarsApiClient, IPeopleService peopleService)
-        {
-            this.starWarsApiClient = starWarsApiClient;
-            this.peopleService = peopleService;
-        }
+        public DataController(IStarWarsApiClient starWarsApiClient) => this.starWarsApiClient = starWarsApiClient;
         // GET: api/data/peoples
         [HttpGet]
         public async Task<PeopleRootObject> GetPeopleAsync(string entity, string pageUrl)
@@ -32,11 +26,11 @@ namespace StarWars.Web.Controllers
                 throw;
             }
         }
-        public async Task Post(People people)
+        public async Task<People> Post(People people)
         {
             try
             {
-                return await this.peopleService.AddPeopleToStarWarsWorld(people);
+                return new People();
             }
             catch (System.Exception)
             {

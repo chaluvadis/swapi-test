@@ -1,7 +1,6 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using StarWars.Web.Brokers;
 using StarWars.Web.Models;
 
 namespace StarWars.Web.Services
